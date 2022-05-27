@@ -1,11 +1,13 @@
-import { types, schema } from 'papr';
-import { createModel } from '../../../src';
+import { Field, Model } from '.../../../src';
 
-const photoSchema = schema({
-  name: types.string(),
-  description: types.string(),
-  views: types.number(),
-});
+@Model()
+export default class Photo {
+  @Field()
+  name: string;
 
-export const Photo = createModel('photos', photoSchema);
-export default Photo;
+  @Field()
+  description: string;
+
+  @Field()
+  views: number;
+}

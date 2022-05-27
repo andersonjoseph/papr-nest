@@ -1,8 +1,7 @@
 import { DynamicModule, Module, Provider } from '@nestjs/common';
-import { PaprOptions } from '.';
+import { PaprModelConstructable, PaprOptions } from '.';
 import { PaprCoreModule } from './PaprCore.module';
 import { createRepositoryProvider } from './repository.provider';
-import { PaprModel } from '.';
 
 @Module({})
 export class PaprModule {
@@ -13,7 +12,9 @@ export class PaprModule {
     };
   }
 
-  static forFeature(models: PaprModel | PaprModel[]): DynamicModule {
+  static forFeature(
+    models: PaprModelConstructable | PaprModelConstructable[],
+  ): DynamicModule {
     let providers: Provider<unknown>[];
 
     if (models instanceof Array)

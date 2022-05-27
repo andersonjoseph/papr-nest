@@ -11,8 +11,8 @@ import fg from 'fast-glob';
 import * as path from 'path';
 import { ImportedPaprModel, PaprOptions } from '.';
 import { Logger } from '@nestjs/common';
-import { PAPR_CONNECTION, PAPR_OPTIONS } from './papr.constants';
-import { PaprModel } from './interfaces';
+import { PAPR_CONNECTION, PAPR_OPTIONS, SCHEMA_KEY } from './papr.constants';
+import { PaprModel, PaprModelConstructable } from './types';
 
 @Global()
 @Module({})
@@ -96,14 +96,19 @@ export class PaprCoreModule {
 
     this.papr.initialize((connection as MongoClient).db());
 
-    const paprModels = await this.loadPaprModels();
+    const paprModels =
+      (await this.loadPaprModels()) as PaprModelConstructable[];
     if (paprModels.length === 0) {
       this.logger.warn('No models loaded');
       return this.papr;
     }
 
     paprModels.forEach((paprModel) => {
-      this.papr.model(paprModel.name, paprModel.schema);
+      new paprModel();
+
+      const schema = Reflect.getMetadata(SCHEMA_KEY, paprModel.prototype);
+
+      this.papr.model(paprModel.name, schema);
       this.logger.log(`Model ${paprModel.name} created`);
     });
 

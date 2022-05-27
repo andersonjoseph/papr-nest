@@ -1,15 +1,19 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import Papr, { Model, BaseSchema } from 'papr';
 
 export type SchemaType = [BaseSchema, Partial<Record<string, unknown>>];
 
-export interface PaprModel<T extends SchemaType = SchemaType> {
-  name: string;
-  schema: T;
-}
+type WithId<T> = {
+  _id: ObjectId | string | number;
+} & T;
 
-export type PaprRepository<T extends PaprModel> = Model<T['schema'][0], object>;
-export type PaprRepositoryResult<T extends PaprModel> = T['schema'][0];
+export type PaprModel = {
+  [key: string]: any;
+};
+
+export type PaprModelConstructable = PaprModel & { new (): any };
+
+export type PaprRepository<T extends PaprModel> = Model<WithId<T>, object>;
 
 type BasePaprOptions = {
   models: PaprModel[] | string;
