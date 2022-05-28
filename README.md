@@ -40,7 +40,7 @@ export default class User {
 ```
 
 ```ts
-// app.module.ts
+// app.model.ts
 import { PaprModule } from 'papr-nest';
 import User from './user/user.model';
 
@@ -73,7 +73,7 @@ export class UserModule {}
 ```
 
 ```ts
-// user.service..ts
+// user.service.ts
 import { getPaprRepositoryToken, PaprRepository } from 'papr-nest';
 import User from './user.model';
 
