@@ -27,7 +27,7 @@
 import {Field, Model} from 'papr-nest';
 
 @Model()
-export defaul class User {
+export default class User {
   @Field()
   age: number
 
@@ -41,6 +41,7 @@ export defaul class User {
 
 ```ts
 // app.module.ts
+import { PaprModule } from 'papr-nest';
 import User from './user/user.model';
 
 @Module({
@@ -73,13 +74,13 @@ export class UserService {
   }
 
   async create(): Promise<User> {
-    const newPhoto = await this.userRepository.insertOne({
+    const newUser = await this.userRepository.insertOne({
       age: 18,
       firstName: 'Elliot',
       lastName: 'Alderson'
     });
 
-    return newPhoto;
+    return newUser;
   }
 }
 
