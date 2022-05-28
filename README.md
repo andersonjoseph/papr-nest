@@ -52,10 +52,24 @@ import User from './user/user.model';
       // you can also use a glob:
       models: 'src/**/*.model.ts',
     }),
-    PhotoModule,
+    UserModule,
   ],
 })
 export class ApplicationModule {}
+```
+
+```ts
+//user.module.ts
+import { PaprModule } from 'papr-nest';
+import { UserService } from './user.service';
+import User from './user.model';
+
+@Module({
+  imports: [PaprModule.forFeature(User)],
+  providers: [UserService],
+})
+export class UserModule {}
+
 ```
 
 ```ts
